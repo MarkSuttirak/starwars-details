@@ -1,20 +1,17 @@
 "use client"
 
 import useFetchData from "@/hooks/useFetchData"
+import { DataType } from "@/types"
 
 interface ListProps {
     params: {
-        list: string,
+        list: DataType,
         id: string
-    }
+    },
+    children: React.ReactNode
 }
 
-interface ListLayoutProps {
-  params: ListProps
-  children: React.ReactNode
-}
-
-const ListLayout = ({ params, children } : ListLayoutProps) => {
+const ListLayout = ({ params, children } : ListProps) => {
 
   const { info } = useFetchData(params.list)
 

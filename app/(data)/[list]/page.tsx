@@ -16,7 +16,7 @@ const List = ({ params } : ListProps) => {
         {infoResults?.length > 0 ? (
           <>
             {infoResults?.map((result: any) => (
-              <Link href={result} className="card-info">
+              <Link href={`${params.list}/${result.title || result.name}`} className="card-info" key={result.title}>
                 {params.list === DataList.Films ? 
                   result.title : 
                   result.name

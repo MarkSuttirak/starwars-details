@@ -19,6 +19,5 @@ export interface ListLayoutProps {
   params: {
     list: DataType,
     id: number
-  },
-  children: React.ReactNode
+  }
 }

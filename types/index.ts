@@ -10,7 +10,15 @@ export enum DataList {
 }
 
 export interface ListProps {
-    params: {
-      list: string
-    }
+  params: {
+    list: string
   }
+}
+
+export interface ListLayoutProps {
+  params: {
+    list: DataType,
+    id: number
+  },
+  children: React.ReactNode
+}

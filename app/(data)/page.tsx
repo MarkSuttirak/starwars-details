@@ -8,9 +8,9 @@ const DataFetcher = () => {
   const dataList = [DataList.Films, DataList.People, DataList.Planets, DataList.StarShips, DataList.Species, DataList.Vehicles]
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {dataList.map(list => (
-        <Link href={list} className="card-info" key={list}>
+        <Link href={`${list}/1`} className="card-info" key={list}>
           {list}
         </Link>
       ))}

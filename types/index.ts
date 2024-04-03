@@ -11,13 +11,21 @@ export enum DataList {
 
 export interface ListProps {
   params: {
-    list: string
+    list: string,
+    page_number: number | string
   }
+}
+
+export interface FetchDataProps {
+  list: DataType
+  page: number | string
+  setPage?: (num: number) => void
 }
 
 export interface ListLayoutProps {
   params: {
     list: DataType,
-    id: number
+    id: number,
+    page_number: number | string
   }
 }

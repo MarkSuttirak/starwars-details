@@ -18,7 +18,7 @@ import {
 
 const List = ({ params } : ListProps) => {
 
-  const { info } = useFetchData({
+  const { info, error, isLoading } = useFetchData({
     list: params.list,
     page: params.page_number
   })
@@ -38,8 +38,6 @@ const List = ({ params } : ListProps) => {
     setSearch(e.target.value)
   }
 
-  console.log(info)
-
   return (
     <>
       <div>
@@ -55,46 +53,33 @@ const List = ({ params } : ListProps) => {
 
       <Input placeholder={`Search ${params.list}...`} onChange={handleSearch}/>
 
-      {infoResults?.length > 0 ? (
+      {isLoading && <h1>Loading...</h1>}
+      {error && <h1 className="text-red-500">There was an error loading the info, please try again.</h1>}
 
-        <>
-          {searchResults?.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {searchResults?.map((result: any, index: number) => (
-                  <Link href={`/${params.list}/${params.page_number}/${index}`} className="card-info" key={result.title}>
-                    {params.list === DataList.Films ?
-                      result.title : 
-                      result.name
-                    }
-                  </Link>
-                ))}
-              </div>
-              <Pagination>
-                <PaginationContent>
-                  {(info as any)?.previous !== null && (
-                    <PaginationItem>
-                      <PaginationPrevious href={`/${params.list}/${numPage - 1}`} />
-                    </PaginationItem>
-                  )}
-                  {(info as any)?.next !== null && (
-                    <PaginationItem>
-                      <PaginationNext href={`/${params.list}/${numPage + 1}`} />
-                    </PaginationItem>
-                  )}
-                </PaginationContent>
-              </Pagination>
-            </>
-          ) : (
-            <h1 className="text-center w-full">No search results</h1>
+      <div className="card-list">
+        {searchResults?.map((result: any, index: number) => (
+          <Link href={`/${params.list}/${params.page_number}/${index}`} className="card-info" key={result.title}>
+            {params.list === DataList.Films ?
+              result.title : 
+              result.name
+            }
+          </Link>
+        ))}
+      </div>
+      <Pagination>
+        <PaginationContent>
+          {(info as any)?.previous !== null && (
+            <PaginationItem>
+              <PaginationPrevious href={`/${params.list}/${numPage - 1}`} />
+            </PaginationItem>
           )}
-        </>
-
-      ) : (
-
-        <h1 className="text-center w-full">Loading...</h1>
-
-      )}
+          {(info as any)?.next !== null && (
+            <PaginationItem>
+              <PaginationNext href={`/${params.list}/${numPage + 1}`} />
+            </PaginationItem>
+          )}
+        </PaginationContent>
+      </Pagination>
     </>
   )
 }

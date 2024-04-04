@@ -22,6 +22,8 @@ const ListPage = ({ params } : ListLayoutProps) => {
     page_number: params.page_number
   })
 
+  console.log(infoList)
+
   return (
     <>
       <Link href={`/${params.list}/${params.page_number}`} className="flex items-center gap-x-2 cursor-pointer z-[50]">
@@ -102,7 +104,7 @@ const ListPage = ({ params } : ListLayoutProps) => {
                 <CardDescription>Max atmosphering speed: {infoList?.max_atmosphering_speed}</CardDescription>
                 <CardDescription>Cost in credits: {infoList?.cost_in_credits}</CardDescription>
                 <CardDescription>Manufacturer: {infoList?.manufacturer}</CardDescription>
-              </div>    
+              </div>
             )}
           </CardContent>
         </Card>

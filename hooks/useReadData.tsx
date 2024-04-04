@@ -1,6 +1,5 @@
 import { DataList } from "@/types"
 import useFetchData from "./useFetchData"
-import { useEffect } from "react"
 
 interface ReadDataProps {
   list: string

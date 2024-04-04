@@ -1,22 +1,14 @@
 "use client"
 
-import { DataType, FetchDataProps } from "@/types";
-import { useState, useEffect } from "react";
+import { FetchDataProps } from "@/types";
+import axios from "axios";
+import useSWR from "swr";
 
 const useFetchData = ({ list, page = 1 } : FetchDataProps) => {
-  const [info, setInfo] = useState([])
+  const fetcher = (url: string) => axios.get(url).then(res => res.data)
+  const { data: info, error, isLoading } = useSWR(`https://swapi.dev/api/${list}/?page=${page}`, fetcher)
 
-  useEffect(() => {
-    fetch(`https://swapi.dev/api/${list}/?page=${page}`)
-    .then((res) => {
-      return res.json()
-    })
-    .then((data: any) => {
-      setInfo(data)
-    })
-  }, [page])
-
-  return { info, setInfo }
+  return { info, error, isLoading }
 }
 
 export default useFetchData

@@ -18,7 +18,7 @@ import {
 
 const List = ({ params } : ListProps) => {
 
-  const { info, error, isLoading } = useFetchData({
+  const { info, error, isLoading, fetcher } = useFetchData({
     list: params.list,
     page: params.page_number
   })

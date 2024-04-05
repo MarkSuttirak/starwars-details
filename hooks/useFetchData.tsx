@@ -8,7 +8,7 @@ const useFetchData = ({ list, page = 1 } : FetchDataProps) => {
   const fetcher = (url: string) => axios.get(url).then(res => res.data)
   const { data: info, error, isLoading } = useSWR(`https://swapi.dev/api/${list}/?page=${page}`, fetcher)
 
-  return { info, error, isLoading }
+  return { info, error, isLoading, fetcher }
 }
 
 export default useFetchData

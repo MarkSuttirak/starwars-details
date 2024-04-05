@@ -13,8 +13,16 @@ import {
 } from "@/components/ui/card"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import useFetchData from "@/hooks/useFetchData"
+import useSWR from "swr"
+import { useEffect, useState } from "react"
 
 const ListPage = ({ params } : ListLayoutProps) => {
+
+  const { fetcher } = useFetchData({
+    list: params.list,
+    page: params.page_number
+  })
 
   const { title, infoList } = useReadData({
     list: params.list,
@@ -22,8 +30,18 @@ const ListPage = ({ params } : ListLayoutProps) => {
     page_number: params.page_number
   })
 
-  console.log(infoList)
+  const fetchInnerData = (list: string[]) => {
+    const [results, setResults] = useState([])
 
+    for (const url of list){
+      fetch(url).then(res => res.json()).then(data => setResults(data))
+
+      console.log(results)
+    }
+  }
+
+
+  infoList && fetchInnerData(infoList?.planets)
   return (
     <>
       <Link href={`/${params.list}/${params.page_number}`} className="flex items-center gap-x-2 cursor-pointer z-[50]">
@@ -43,6 +61,7 @@ const ListPage = ({ params } : ListLayoutProps) => {
                 <CardDescription>Director: {infoList?.director}</CardDescription>
                 <CardDescription>Episode ID: {infoList?.episode_id}</CardDescription>
                 <CardDescription>Release Date: {infoList?.release_date}</CardDescription>
+                <CardDescription>Planets: {}</CardDescription>
               </div>       
             )}
 

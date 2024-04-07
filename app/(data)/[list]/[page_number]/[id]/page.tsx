@@ -15,33 +15,35 @@ import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import useFetchData from "@/hooks/useFetchData"
 import useSWR from "swr"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import useSlug from "@/hooks/useSlug"
 
 const ListPage = ({ params } : ListLayoutProps) => {
 
+  const { slugify, unslugify } = useSlug()
   const { fetcher } = useFetchData({
-    list: params.list,
-    page: params.page_number
+    list: params.list
   })
 
-  const { title, infoList } = useReadData({
+  const { title, infoList, isLoading } = useReadData({
     list: params.list,
-    id: params.id,
+    id: unslugify(params.id),
     page_number: params.page_number
   })
 
-  const fetchInnerData = (list: string[]) => {
-    const [results, setResults] = useState([])
+  const fetchInnerData = useCallback((lists: string | string[]) => {
+    const results: string[] = []
 
-    for (const url of list){
-      fetch(url).then(res => res.json()).then(data => setResults(data))
-
-      console.log(results)
+    if (!isLoading){
+      for (const url of lists){
+        const { data: info } = useSWR(url, fetcher)
+        results.push(info?.title || info?.name)
+      }
     }
-  }
 
+    return results.join(", ")
+  }, [])
 
-  infoList && fetchInnerData(infoList?.planets)
   return (
     <>
       <Link href={`/${params.list}/${params.page_number}`} className="flex items-center gap-x-2 cursor-pointer z-[50]">
@@ -61,8 +63,8 @@ const ListPage = ({ params } : ListLayoutProps) => {
                 <CardDescription>Director: {infoList?.director}</CardDescription>
                 <CardDescription>Episode ID: {infoList?.episode_id}</CardDescription>
                 <CardDescription>Release Date: {infoList?.release_date}</CardDescription>
-                <CardDescription>Planets: {}</CardDescription>
-              </div>       
+                <CardDescription>Planets: {fetchInnerData(infoList?.planets)}</CardDescription>
+              </div>
             )}
 
             {params.list === DataList.People && (

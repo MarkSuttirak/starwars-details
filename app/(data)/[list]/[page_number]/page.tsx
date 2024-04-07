@@ -15,9 +15,11 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import useSlug from "@/hooks/useSlug"
 
 const List = ({ params } : ListProps) => {
 
+  const { slugify } = useSlug()
   const { info, error, isLoading, fetcher } = useFetchData({
     list: params.list,
     page: params.page_number
@@ -57,8 +59,8 @@ const List = ({ params } : ListProps) => {
       {error && <h1 className="text-red-500">There was an error loading the info, please try again.</h1>}
 
       <div className="card-list">
-        {searchResults?.map((result: any, index: number) => (
-          <Link href={`/${params.list}/${params.page_number}/${index}`} className="card-info" key={result.title}>
+        {searchResults?.map((result: any) => (
+          <Link href={`/${params.list}/${params.page_number}/${slugify(result.title || result.name)}`} className="card-info" key={result.title || result.name}>
             {params.list === DataList.Films ?
               result.title : 
               result.name

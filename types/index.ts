@@ -18,14 +18,20 @@ export interface ListProps {
 
 export interface FetchDataProps {
   list: DataType
-  page: number | string
+  page?: number | string
   setPage?: (num: number) => void
+}
+
+export interface ReadDataProps {
+  list: string
+  id: string,
+  page_number: string | number
 }
 
 export interface ListLayoutProps {
   params: {
     list: DataType,
-    id: number,
-    page_number: number | string
+    id: string,
+    page_number: string | number
   }
 }
